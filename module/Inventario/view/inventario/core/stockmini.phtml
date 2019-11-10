@@ -1,0 +1,86 @@
+<?php
+$i = 1;
+echo $this->headTitle('Stock Minimo');
+?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+?>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+    });
+</script>
+<div style="float: right">
+    <a href="<?php echo $this->url('stockmini') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </a>
+</div>
+<div style="float: right">
+    <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span> Reporte PDF
+    </button>
+    <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span>
+    </button>
+</div>
+<div style="float: right">
+    <a href="<?php echo $this->url('rptstockminixls') ?>">
+    <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span> Reporte Excel
+    </button>
+    <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span>
+    </button>
+    </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-align-justify"></span> Stock Minimo</h1>
+<div class="panel-info">
+    <div class="panel-heading">
+        STOCK MINIMO
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+            <th class="col-md-1 text-center">OPCIONES</th>
+            <th class="col-md-1 text-center">#</th>
+            <th class="text-center">CODIGO DE BARRA</th>
+            <th class="text-center">PRODUCTOS</th>
+            <th class="text-center">MARCA</th>
+            <th class="text-center">STOCK</th>
+            <th class="text-center">CATEGORIA</th>
+            <th class="text-center">PROVEEDOR</th>
+            </thead>
+            <tbody>
+            <?php foreach ($this->inventario as $inventario) :?>
+            <tr>
+                <td class="text-center">
+                    <a href="<?php echo $this->url('addarticulostock'); ?>id/<?php echo $inventario['id_inventario']; ?>">
+                        <button class="btn btn-default btn-xs" title="Ingresar">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </a>
+                </td>
+                <td class="col-md-1 text-center"><?php echo $i; ?></td>
+                <td class="text-center"><?php echo $inventario['codigo']; ?></td>
+                <td class="text-center"><?php echo $inventario['productos']; ?></td>
+                <td class="text-center"><?php echo $inventario['marca']; ?></td>
+                <td class="text-center"><?php echo $inventario['stock']; ?></td>
+                <td class="text-center"><?php echo $inventario['categoria']; ?></td>
+                <td class="text-center"><?php echo $inventario['razon_social']; ?></td>
+            </tr>
+            <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+
+        </table>
+    </div>
+</div>

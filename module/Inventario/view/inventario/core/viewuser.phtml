@@ -1,0 +1,112 @@
+<?php
+$i = 1;
+echo $this->headTitle()->append('Editar Usuario');
+?>
+<div style="float: right">
+        <a href="javascript:history.back()">
+            <button class="btn btn-default hidden-xs">
+                <span class="glyphicon glyphicon-menu-left"></span> Regresar
+            </button>
+            <button class="btn btn-default visible-xs-inline">
+                <span class="glyphicon glyphicon-menu-left"></span>
+            </button>
+        </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-briefcase"></span> Usuario</h1>
+<?php foreach ($this->users as $users) : ?>
+<?php
+$form = $this->usersForm;
+$form->setAttribute('action', $this->url('edituser').'id/'.$users['id']);
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+    <div class="panel-body table-responsive">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>DNI</label>
+                    <?php echo $this->formElement($form->get('dni')->setValue($users['dni'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('dni')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('dni'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Nombre/Apellidos</label>
+                    <?php echo $this->formElement($form->get('name')->setValue($users['name'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('name')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('name'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <?php echo $this->formElement($form->get('email')->setValue($users['email'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('email')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('email'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Activo</label>
+                    <?php echo $this->formElement($form->get('status')->setValue($users['status'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('status')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('status'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <?php echo $this->formElement($form->get('password')->setValue($users['password'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('password')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('password'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Repetir contraseña</label>
+                    <?php echo $this->formElement($form->get('password_repeat')->setValue($users['password'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('password_repeat')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('password_repeat'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Celular</label>
+                    <?php echo $this->formElement($form->get('celular')->setValue($users['celular'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('celular'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Rol</label>
+                    <?php echo $this->formElement($form->get('rol')->setValue($users['role_id'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('rol')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('rol'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php
+echo $this->formElement($form->get('id')->setValue($users['id']));
+echo $this->form()->closeTag($form);
+?>

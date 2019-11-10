@@ -1,0 +1,72 @@
+<?php
+$form = $this->catgForm;
+$form->setAttribute('action', $this->url('addcategoria'));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Añadir Categoria</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel-default">
+            <div class="panel-heading">
+                <img src="<?php echo $this->basePath(); ?>/img/carrito.png" class="img-centre img-responsive"/>
+            </div>
+            <div class="panel-body table-responsive">
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <?php echo $this->formElement($form->get('categoria')); ?>
+                    <?php if($this->formElementErrors($form->get('categoria')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('categoria'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <?php echo $this->formElement($form->get('reset')); ?>
+        <?php echo $this->formElement($form->get('submit')); ?>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+<script>
+    $(document).ready(function(){
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+        $("#categForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var parametros = {
+                categoria : $(this).find( "input[name='categoria']" ).val(),
+            };
+            var target = $(this).attr("action");
+            var url = '<?php echo $this->url('addcategoria') ?>';
+            //alert('the action is: ' + url);
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                data: parametros,
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        });
+    });
+</script>
+

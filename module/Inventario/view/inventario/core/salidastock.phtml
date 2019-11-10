@@ -1,0 +1,147 @@
+<?php echo $this->headTitle('Salida de Stock') ?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/moment.js')
+    ->prependFile($this->basePath() . '/js/bootstrap-datetimepicker.js');
+?>
+    <script>
+        $(function(){
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                viewMode: 'years',
+                maxDate : 'now'
+            });
+        });
+    </script>
+<div style="float: right">
+    <a href="<?php echo $this->url('invprincipal') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-menu-left"></span> Regresar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </button>
+    </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-align-justify"></span> Salida de Stock</h1>
+<?php foreach ($this->dbinventario as $articulo) : ?>
+<?php
+$form = $this->stockForm;
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="panel-info">
+    <div class="panel-heading">
+        Salida de Stock
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Codigo de Barra</label>
+                    <?php echo $this->formElement($form->get('codigo')->setValue($articulo['codigo'])); ?>
+                    <?php if($this->formElementErrors($form->get('codigo')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('codigo'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Producto</label>
+                    <?php echo $this->formElement($form->get('productos')->setValue($articulo['productos'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <?php echo $this->formElement($form->get('tipo_moneda')->setValue($articulo['tipo_moneda'])); ?>
+                        </div>
+                        <?php echo $this->formElement($form->get('precio')->setValue($articulo['precio'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group select2-bootstrap-prepend" >
+                    <label>Proveedor</label>
+                    <select name="id_proveedor" class="form-control" disabled>
+                        <option value=""> SELECCIONAR</option>
+                        <?php foreach ($this->dbproveedor as $proveedor) :?>
+                            <?php if($proveedor['id'] != $articulo['id_proveedor']): ?>
+                                <option value="<?php echo $proveedor['id'];?>"> <?php echo $proveedor['razon_social'];?></option>
+                            <?php else : ?>
+                                <option value="<?php echo $proveedor['id'];?>" selected> <?php echo $proveedor['razon_social'];?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-1 small"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <?php echo $this->formElement($form->get('cantidad')); ?>
+                    <?php if($this->formElementErrors($form->get('cantidad')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('cantidad'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Salida</label>
+                    <div id='datetimepicker1' class='input-group date'>
+                    <?php echo $this->formElement($form->get('fecha_salida')); ?>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('fecha_salida')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('fecha_salida'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>No.  Orden de Salida</label>
+                    <?php echo $this->formElement($form->get('numero_ordencompras')); ?>
+                    <?php if($this->formElementErrors($form->get('numero_ordencompras')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('numero_ordencompras'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Descripcion</label>
+                    <?php echo $this->formElement($form->get('descripcion')); ?>
+                    <?php if($this->formElementErrors($form->get('descripcion')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('descripcion'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+                <?php echo $this->formElement($form->get('id')->setValue($articulo['id_inventario'])); ?>
+                <button class="btn btn-default " type="submit">
+                    <span class="glyphicon glyphicon-save"></span> Guardar
+                </button>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+<?php endforeach; ?>

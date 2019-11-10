@@ -1,0 +1,106 @@
+<?php
+echo $this->headTitle('Perfil');
+?>
+<h1 class="page-header"><span class="glyphicon glyphicon-user"></span> Perfil</h1>
+<?php
+use Zend\Session\Container;
+
+$session = new Container('User');
+$role = $session->offsetGet('roleId');
+$role_name = $session->offsetGet('roleName');
+?>
+<script type="text/javascript">
+    
+    function changerpassword (e) {
+            $("#result" ).hide();
+            var url = '<?php echo $this->url('changerpassword')?>';
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "GET",
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        };
+
+    function edituser (e) {
+        $("#result" ).hide();
+        var url = '<?php echo $this->url('editperfil')?>';
+        $( "#loading").show();
+        var request = $.ajax({
+            url:  url,
+            type: "GET",
+            dataType: "html"
+        });
+
+        request.done(function( msg ) {
+            $( "#result" ).html( msg );
+            $( "#result" ).show();
+            $( "#loading" ).hide();
+        });
+    };
+</script>
+<div class="row">
+    <div class="col-md-6">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/find_user.png" alt="Nombre de Perfil" class="img-circle" style="margin-left: 20px">
+            </div>
+            <a href="#">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">CAMBIAR IMAGEN</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-edit"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <?php foreach ($this->result as $users): ?>
+    <div class="col-md-6">
+        <div id="loading" class="panel-body table-responsive" style="display: none;">
+            <img src="<?php echo $this->basePath(); ?>/img/loading.gif" class="img-centre img-responsive" />
+        </div>
+        <div id="result">
+        <div class="panel-info">
+            <div class="">
+                <a href="#" onclick="javascript:edituser()"><span class="glyphicon glyphicon-edit pull-right"></span></a>
+            </div>
+            <h1><?php echo $session->offsetGet('name');?></h1>
+            <div class="panel-body ">
+                <div class="form-group">
+                    <label>DNI:</label>
+                    <?php echo $users['dni'] ; ?>
+                </div>
+                <div class="form-group">
+                    <label>Email: </label>
+                    <?php echo $session->offsetGet('email'); ?>
+                </div>
+                <div class="form-group">
+                    <label>Celular: </label>
+                    <?php echo $users['celular'] ; ?>
+                </div>
+                <div class="form-group">
+                    <label>Rol: </label>
+                    <?php echo $session->offsetGet('roleName'); ?>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de creacion: </label>
+                    <?php echo $this->status()->printdate($users['created_on']); ?>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de modificación: </label>
+                    <?php echo $this->status()->printdate($users['modified_on']); ?>
+                </div>
+            </div>
+        </div>
+        <button name="changerpassword" class="btn btn-default" type="button" onclick="javascript:changerpassword()">
+            <span class="glyphicon glyphicon-save"></span> Cambiar Contraseña
+        </button>
+        </div>
+    </div>
+</div>
+<?php endforeach;  ?>

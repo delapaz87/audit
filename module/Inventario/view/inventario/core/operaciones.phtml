@@ -1,0 +1,49 @@
+<?php 
+$i = 1;
+echo $this->headTitle('Operaciones');
+?>
+<h1 class="page-header"><span class="glyphicon glyphicon-cog"></span> Operaciones</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/users.ico" height="70" width="70"/>
+                <h4>CREAR USUARIOS</h4>
+            </div>
+            <a href="<?php echo $this->url('users');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">SELECIONAR OPCION</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/suitcase.ico" height="70" width="70"/>
+                <h4>CREAR PROVEEDORES</h4>
+            </div>
+            <a href="<?php echo $this->url('proveedores');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">SELECIONAR OPCION</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/shopping-cart.ico" height="70" width="70"/>
+                <h4>ORDEN DE ENTRADA</h4>
+            </div>
+            <a href="<?php echo $this->url('addmercancia');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">SELECIONAR OPCION</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

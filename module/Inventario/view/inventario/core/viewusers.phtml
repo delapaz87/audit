@@ -1,0 +1,239 @@
+<?php
+$i = 1;
+echo $this->headTitle('Usuarios'); 
+?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+?>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+    });
+</script>
+<div style="float: right">
+    <a href="<?php echo $this->url('users') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </a>
+</div>
+<div style="float: right">
+    <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-plus"></span> Añadir Usuario
+    </button>
+    <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-user"></span> Usuarios</h1>
+<div class="panel-info">
+    <div class="panel-heading">
+        LISTA DE USUARIOS
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+            <td class="col-md-1 text-center">OPCIONES</td>
+            <td class="col-md-1 text-center">#</td>
+            <td class="text-center">DNI</td>
+            <td class="text-center">NOMBRE/APELLIDO</td>
+            <td class="text-center">CORREO</td>
+            <td class="text-center">CELULAR</td>
+            <td class="text-center">ROL</td>
+            </thead>
+            <tbody>
+            <?php  foreach ( $this->users as $users ): ?>
+            <tr>
+                <td class="text-center">
+                    <a href="<?php echo $this->url('edituser'); ?>id/<?php echo $users['id']; ?>" title="Editar">
+                        <button class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-edit" ></span>
+                        </button>
+                    </a>
+                    <a href="<?php echo $users['id']; ?>" title="Eliminar">
+                        <button class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </a>
+                    <a href="<?php echo $this->url('viewuser'); ?>id/<?php echo $users['id']; ?>">
+                        <button class="btn btn-default btn-xs" title="Ver">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                    </a>
+                </td>
+                <td class="text-center"><?php echo $i ?></td>
+                <td class="text-center"><?php echo $users['dni']; ?></td>
+                <td class="text-center"><?php echo $users['name']; ?></td>
+                <td class="text-center"><?php echo $users['email']; ?></td>
+                <td class="text-center"><?php echo $users['celular']; ?></td>
+                <td class="text-center"><?php echo $users['role_name']; ?></td>
+            </tr>
+            <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div id="loading" class="modal-content" style="display: none;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Añadir Usuario</h4>
+            </div>
+            <div  class="panel-body table-responsive">
+                <img src="<?php echo $this->basePath(); ?>/img/loading.gif" class="img-centre img-responsive" />
+            </div>
+            </div>
+            <div id="result">
+                <?php
+                $form = $this->usersForm;
+                $form->setAttribute('action', $this->url('addusers'));
+                $form->prepare();
+                echo $this->form()->openTag($form);
+                ?>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Añadir Usuario</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-default">
+                            <div class="panel-body table-responsive">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>DNI</label>
+                                            <?php echo $this->formElement($form->get('dni')); ?>
+                                            <?php if($this->formElementErrors($form->get('dni')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('dni'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Nombre/Apellidos</label>
+                                            <?php echo $this->formElement($form->get('name')); ?>
+                                            <?php if($this->formElementErrors($form->get('name')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('name'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <?php echo $this->formElement($form->get('email')); ?>
+                                            <?php if($this->formElementErrors($form->get('email')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('email'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Activo</label>
+                                            <?php echo $this->formElement($form->get('status')); ?>
+                                            <?php if($this->formElementErrors($form->get('status')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('status'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Contraseña</label>
+                                            <?php echo $this->formElement($form->get('password')); ?>
+                                            <?php if($this->formElementErrors($form->get('password')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('password'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Repetir contraseña</label>
+                                            <?php echo $this->formElement($form->get('password_repeat')); ?>
+                                            <?php if($this->formElementErrors($form->get('password_repeat')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('password_repeat'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Celular</label>
+                                            <?php echo $this->formElement($form->get('celular')); ?>
+                                            <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('celular'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Rol</label>
+                                            <?php echo $this->formElement($form->get('rol')); ?>
+                                            <?php if($this->formElementErrors($form->get('rol')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('rol'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <?php echo $this->formElement($form->get('reset')); ?>
+                        <?php echo $this->formElement($form->get('submit')); ?>
+                    </div>
+                </div>
+                <?php
+                echo $this->form()->closeTag($form);
+                ?>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function(){
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+        $("#usersForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var target = $(this).attr("action");
+            var url = 'http://localhost:8080' + $(this).attr("action");
+            //alert('the action is: ' + url);
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                //  data: { id : 1},
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        });
+    });
+</script>

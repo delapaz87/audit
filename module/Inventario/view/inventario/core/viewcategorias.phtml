@@ -1,0 +1,157 @@
+<?php
+$i = 1;
+echo $this->headTitle('Categorias');
+?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+?>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+    });
+</script>
+<div style="float: right">
+    <a href="<?php echo $this->url('categorias') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+        <button class="btn visible-xs-inline">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </a>
+</div>
+<div style="float: right">
+        <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span> Añadir Categoria
+        </button>
+        <button class="btn visible-xs-inline" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-list"></span> Categorias</h1>
+<div class="panel-info">
+    <div class="panel-heading">
+        LISTA DE CATEGORIAS
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <td class="col-md-1 text-center"><b>OPCIONES</b></td>
+            <td class="col-md-1 text-center"><b>#</b></td>
+            <td class="text-center"><b>CATEGORIA</b></td>
+            </thead>
+            <tbody>
+            <?php foreach ($this->categitems as $categ) : ?>
+            <tr>
+            <td class="text-center">
+                <a href="<?php echo $this->url('editcategoria'); ?>id/<?php echo $categ['id']; ?>" title="Editar">
+                    <button class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-edit" ></span>
+                    </button>
+                </a>
+                <a href="<?php echo $this->url('deletecategoria'); ?>id/<?php echo $categ['id']; ?>" title="Eliminar">
+                    <button class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </a>
+            </td>
+            <td class="text-center"><?php echo $i ?></td>
+            <td class="text-center"><?php echo $categ['categoria']?></td>
+            </tr>
+            <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+                <div id="loading" class="modal-content" style="display: none;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Añadir Categoria</h4>
+                </div>
+                <div  class="panel-body table-responsive">
+                    <img src="<?php echo $this->basePath(); ?>/img/loading.gif" class="img-centre img-responsive" />
+                </div>
+                </div>
+                <div id="result">
+                    <?php
+                    $form = $this->catgForm;
+                    $form->setAttribute('action', $this->url('addcategoria'));
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    ?>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Añadir Categoria</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-default">
+                                <div class="panel-heading">
+                                    <img src="<?php echo $this->basePath(); ?>/img/carrito.png" class="img-centre img-responsive"/>
+                                </div>
+                                <div class="panel-body table-responsive">
+                                    <div class="form-group">
+                                        <label>Categoria</label>
+                                        <?php echo $this->formElement($form->get('categoria')); ?>
+                                        <?php if($this->formElementErrors($form->get('categoria')) != null) : ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                <span class="sr-only">Error:</span>
+                                                <?php echo $this->formElementErrors($form->get('categoria'));?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <?php echo $this->formElement($form->get('reset')); ?>
+                            <?php echo $this->formElement($form->get('submit')); ?>
+                        </div>
+                    </div>
+                    <?php
+                    echo $this->form()->closeTag($form);
+                    ?>
+                </div>
+        </div>
+    </div>
+
+<script>
+    $(document).ready(function(){
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+        $("#categForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var parametros = {
+                categoria : $(this).find( "input[name='categoria']" ).val(),
+            };
+            var target = $(this).attr("action");
+            var url = '<?php echo $this->url('addcategoria')?>';
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                data: parametros,
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        });
+    });
+</script>

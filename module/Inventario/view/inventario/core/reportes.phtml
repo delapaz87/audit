@@ -1,0 +1,102 @@
+<?php
+use Zend\Session\Container;
+
+$session = new Container('User');
+$role = $session->offsetGet('roleId');
+$role_name = $session->offsetGet('roleName');
+?>
+<?php
+$i = 1;
+echo $this->headTitle('Consultas/Reportes');
+?>
+<h1 class="page-header"><span class="glyphicon glyphicon-file"></span> Consultas/Reportes</h1>
+<div class="row">
+    <?php if ($role == 1) : ?>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/users.ico" height="70" width="70"/>
+                <h4>CONSULTAR USUARIOS</h4>
+            </div>
+            <a href="<?php echo $this->url('users');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">VER LISTA</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <?php endif ?>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/suitcase.ico" height="70" width="70"/>
+                <h4>PROVEEDORES</h4>
+            </div>
+            <a href="<?php echo $this->url('proveedores');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">VER LISTA</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/ope.ico" height="70" width="70"/>
+                <h4>CATEGORIAS</h4>
+            </div>
+            <a href="<?php echo $this->url('categorias');?>">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">VER LISTA</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/meanicons.png" height="70" width="70" />
+                <h4>HISTORIAL DE SALIDA</h4>
+            </div>
+            <a href="#">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">VER LISTA</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/pdf.ico" height="70" width="70"/>
+                <h4>LISTA DE ACTIVOS</h4>
+            </div>
+            <a href="#">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">DESCARGAR EN PDF</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-save"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/pdf.ico" height="70" width="70"/>
+                <h4>STOCK MINIMO</h4>
+            </div>
+            <a href="#">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">DESCARGAR EN PDF</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-save"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<script>
+    $(document).ready(function(){
+
+        $("#usereditForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var parametros = {
+                dni : $(this).find( "input[name='dni']" ).val(),
+                name : $(this).find( "input[name='name']" ).val(),
+                celular : $(this).find( "input[name='celular']" ).val(),
+            };
+            var target = $(this).attr("action");
+            var url = '<?php echo $this->url('editperfil')?>';
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                data: parametros,
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+                window.location.replace("<?php echo $this->url('perfil')?>")
+
+            });
+        });
+    });
+</script>
+<?php
+$form = $this->userForm;
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<?php foreach ($this->user as $user): ?>
+<div class="form-group">
+    <label>Nombre y Apellido</label>
+    <?php echo $this->formElement($form->get('name')->setValue($user['name'])); ?>
+    <?php if($this->formElementErrors($form->get('name')) != null) : ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $this->formElementErrors($form->get('name'));?>
+        </div>
+    <?php endif; ?>
+</div>
+<div class="form-group">
+    <label>DNI</label>
+    <?php echo $this->formElement($form->get('dni')->setValue($user['dni'])); ?>
+    <?php if($this->formElementErrors($form->get('dni')) != null) : ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $this->formElementErrors($form->get('dni'));?>
+        </div>
+    <?php endif; ?>
+</div>
+<div class="form-group">
+    <label>Celular</label>
+    <?php echo $this->formElement($form->get('celular')->setValue($user['celular'])); ?>
+    <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $this->formElementErrors($form->get('celular'));?>
+        </div>
+    <?php endif; ?>
+</div>
+<div style="float: right">
+    <button class="btn btn-default " type="submit">
+        <span class="glyphicon glyphicon-save"></span> Guardar
+    </button>
+</div>
+<?php endforeach; ?>
+<?php
+echo $this->form()->closeTag($form);
+?>

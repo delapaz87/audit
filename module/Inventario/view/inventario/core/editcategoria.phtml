@@ -1,0 +1,48 @@
+<?php
+$i = 1;
+echo $this->headTitle()->append('Editar categorias');
+?>
+<div style="float: right">
+        <a href="javascript:history.back()">
+            <button class="btn btn-default hidden-xs">
+                <span class="glyphicon glyphicon-menu-left"></span> Regresar
+            </button>
+            <button class="btn btn-default visible-xs-inline">
+                <span class="glyphicon glyphicon-menu-left"></span>
+            </button>
+        </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-briefcase"></span>Editar categorias</h1>
+<?php foreach ($this->categorias as $categorias) : ?>
+    <?php
+    $form = $this->catgForm;
+    $form->setAttribute('action', $this->url('editcategoria'));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    ?>
+ <div class="panel-default">
+                <div class="panel-heading">
+                    <img src="<?php echo $this->basePath(); ?>/img/carrito.png" class="img-centre img-responsive"/>
+                </div>
+                <div class="panel-body table-responsive">
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <?php echo $this->formElement($form->get('categoria')->setValue($categorias['categoria'])); ?>
+                        <?php if($this->formElementErrors($form->get('categoria')) != null) : ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?php echo $this->formElementErrors($form->get('categoria'));?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group" style="float: right">
+                        <button class="btn btn-default " type="submit">
+                            <span class="glyphicon glyphicon-save"></span> Guardar
+                        </button>
+                    </div>
+                </div>
+ </div>
+<?php
+    echo $this->formElement($form->get('id')->setValue($categorias['id']));
+    echo $this->form()->closeTag($form);
+?>
+<?php endforeach; ?>

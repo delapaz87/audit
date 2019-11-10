@@ -1,0 +1,111 @@
+<?php echo $this->headTitle('Dashboard') ?>
+<div class="pull-right">
+    <span class="glyphicon glyphicon-lock pull-left"></span>
+    <span class="pull-left">&emsp;<?php echo $this->status()->printdate(); ?>&emsp;IP:&emsp;<?php echo $this->status()->getip(); ?> </span>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div class="pager panel-info text-center">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/alerta.ico" height="70" width="70"/>
+                <h4>ARTICULOS CON STOCK MINIMO</h4>
+                <h1 class="text-info"><?php echo count($this->stockmini); ?></h1>
+            </div>
+            <a href="<?php echo $this->url('stockmini'); ?>">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">VER DETALLES</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="pager panel-info text-center">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/productos.ico" height="70" width="70"/>
+                <h4>ARTICULOS REGISTRADOS</h4>
+                <h1 class="text-info"><?php echo count($this->inventario); ?></h1>
+            </div>
+            <a href="<?php echo $this->url('invprincipal') ?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">VER DETALLES</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="pager panel-info text-center">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/suitcase.ico" height="70" width="70"/>
+                <h4>PROVEEDORES</h4>
+                <h1 class="text-info"><?php echo count($this->proveedores); ?></h1>
+            </div>
+            <a href="<?php echo $this->url('proveedores');?>">
+                <div class="panel-footer panel-body">
+                    <span class="pull-left">VER DETALLES</span>
+                    <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/lista.ico" height="70" width="70"/>
+                <h4>CONSULTAS/REPORTES</h4>
+            </div>
+            <a href="<?php echo $this->url('reportes'); ?>">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">INGRESAR</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/ope.ico" height="70" width="70"/>
+                <h4>OPERACIONES</h4>
+            </div>
+            <a href="<?php echo $this->url('operaciones') ?>">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">INGRESAR</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/pdf.ico" height="70" width="70"/>
+                <h4>LISTA DE MERCANCIA</h4>
+            </div>
+            <a href="#">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">DESCARGAR EN PDF</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-save"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="pager panel-info">
+            <div class="panel-body">
+                <img src="<?php echo $this->basePath(); ?>/img/excel.ico" height="70" width="70" />
+                <h4>LISTA DE MERCANCIA</h4>
+            </div>
+            <a href="<?php echo $this->url('rptinventarioxls'); ?>">
+            <div class="panel-footer panel-body">
+                <span class="pull-left">DESCARGAR EN EXCEL</span>
+                <span class="pull-right"><span class="glyphicon glyphicon-save"></span></span>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>

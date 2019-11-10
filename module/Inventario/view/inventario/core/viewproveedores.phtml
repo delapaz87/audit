@@ -1,0 +1,148 @@
+<?php
+$i = 1;
+echo $this->headTitle()->append('Proveedores');
+?>
+<div style="float: right">
+        <a href="javascript:history.back()">
+            <button class="btn btn-default hidden-xs">
+                <span class="glyphicon glyphicon-menu-left"></span> Regresar
+            </button>
+            <button class="btn btn-default visible-xs-inline">
+                <span class="glyphicon glyphicon-menu-left"></span>
+            </button>
+        </a>
+    </div>
+<h1 class="page-header"><span class="glyphicon glyphicon-briefcase"></span> Proveedor</h1>
+<?php
+$form = $this->proveedorForm;
+$form->setAttribute('action', $this->url('addproveedor'));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<?php foreach ($this->proveedoresitems as $proveedores) ?>
+    <div class="panel-body table-responsive">
+    <div class="row">
+    <div class="col-md-5">
+    <div class="form-group">
+    <label>RUC</label>
+<?php echo $this->formElement($form->get('ruc')->setValue($proveedores['ruc'])->setAttributes(array('disabled' => 'disabled'))); ?>
+<?php if($this->formElementErrors($form->get('ruc')) != null) : ?>
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <?php echo $this->formElementErrors($form->get('ruc'));?>
+    </div>
+<?php endif; ?>
+    </div>
+
+    <div class="form-group">
+        <label>Razon Social</label>
+        <?php echo $this->formElement($form->get('razon_social')->setValue($proveedores['razon_social'])->setAttributes(array('disabled' => 'disabled'))); ?>
+        <?php if($this->formElementErrors($form->get('razon_social')) != null) : ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $this->formElementErrors($form->get('razon_social'));?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <?php echo $this->formElement($form->get('nombre')->setValue($proveedores['nombre'])->setAttributes(array('disabled' => 'disabled'))); ?>
+        <?php if($this->formElementErrors($form->get('nombre')) != null) : ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $this->formElementErrors($form->get('nombre'));?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="form-group">
+        <label>Direccion</label>
+        <?php echo $this->formElement($form->get('direccion')->setValue($proveedores['direccion'])->setAttributes(array('disabled' => 'disabled'))); ?>
+        <?php if($this->formElementErrors($form->get('direccion')) != null) : ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $this->formElementErrors($form->get('direccion'));?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+        <div class="form-group">
+            <label>Telefono</label>
+            <?php echo $this->formElement($form->get('telefono')->setValue($proveedores['telefono'])->setAttributes(array('disabled' => 'disabled'))); ?>
+            <?php if($this->formElementErrors($form->get('telefono')) != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <?php echo $this->formElementErrors($form->get('telefono'));?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label>Celular</label>
+            <?php echo $this->formElement($form->get('celular')->setValue($proveedores['celular'])->setAttributes(array('disabled' => 'disabled'))); ?>
+            <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <?php echo $this->formElementErrors($form->get('celular'));?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <?php echo $this->formElement($form->get('email')->setValue($proveedores['email'])->setAttributes(array('disabled' => 'disabled'))); ?>
+            <?php if($this->formElementErrors($form->get('email')) != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <?php echo $this->formElementErrors($form->get('email'));?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="form-group">
+            <label>Ciudad</label>
+            <?php echo $this->formElement($form->get('ciudad')->setValue($proveedores['ciudad'])->setAttributes(array('disabled' => 'disabled'))); ?>
+            <?php if($this->formElementErrors($form->get('ciudad')) != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <?php echo $this->formElementErrors($form->get('ciudad'));?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    </div>
+    <div class="form-group">
+        <label>Sitio web</label>
+        <?php echo $this->formElement($form->get('url')->setValue($proveedores['url'])->setAttributes(array('disabled' => 'disabled'))); ?>
+        <?php if($this->formElementErrors($form->get('url')) != null) : ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $this->formElementErrors($form->get('url'));?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="form-group">
+        <label>Observacion</label>
+        <?php echo $this->formElement($form->get('observacion')->setValue($proveedores['observacion'])->setAttributes(array('disabled' => 'disabled'))); ?>
+        <?php if($this->formElementErrors($form->get('observacion')) != null) : ?>
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <?php echo $this->formElementErrors($form->get('observacion'));?>
+            </div>
+        <?php endif; ?>
+    </div>
+    </div>
+<?php
+echo $this->form()->closeTag($form);
+?>

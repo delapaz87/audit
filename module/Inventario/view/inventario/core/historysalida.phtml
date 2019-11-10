@@ -1,0 +1,76 @@
+<?php
+$i = 1;
+echo $this->headTitle('Historial de Salidas');
+?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+?>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+<div style="float: right">
+    <a href="<?php echo $this->url('stockmini') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </a>
+</div>
+<div style="float: right">
+    <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span> Reporte PDF
+    </button>
+    <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span>
+    </button>
+</div>
+<div style="float: right">
+    <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span> Reporte Excel
+    </button>
+    <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+        <span class="glyphicon glyphicon-save"></span>
+    </button>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-align-justify"></span> Historial de Salidas</h1>
+<div class="panel-info">
+    <div class="panel-heading">
+        Historial de Salidas
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+            <th class="col-md-1 text-center">OPERACION</th>
+            <th class="col-md-1 text-center">#</th>
+            <th class="text-center">CODIGO DE BARRA</th>
+            <th class="text-center">PRODUCTOS</th>
+            <th class="text-center">DOCUMENTO</th>
+            <th class="text-center">CANTIDAD</th>
+            <th class="text-center">FECHA DE SALIDA</th>
+            </thead>
+            <tbody>
+            <?php foreach ($this->kardex as $kardex) :?>
+                    <tr>
+                        <td class="text-center"><span class="label label-danger"><?php echo $kardex['tipo_operacion']; ?></span></td>
+                        <td class="text-center"><?php echo $i; ?></td>
+                        <td class="text-center"><?php echo $kardex['codigo']; ?></td>
+                        <td class="text-center"><?php echo $kardex['productos']; ?></td>
+                        <td class="text-center"><a data-original-title="<?php echo $kardex['descripcion']; ?>" href="#" data-toggle="tooltip" data-placement="bottom" title=""><?php echo $kardex['documento']; ?></a></td>
+                        <td class="text-center"><?php echo $kardex['cantidad']; ?></td>
+                        <td class="text-center"><?php echo $kardex['fecha_salida']; ?></td>
+                    </tr>
+            <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

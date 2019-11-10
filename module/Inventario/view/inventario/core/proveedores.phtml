@@ -1,0 +1,280 @@
+<?php
+$i = 1;
+echo $this->headTitle()->append('Proveedores');
+?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+?>
+<script>
+    $(document).ready(function(){
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+    });
+</script>
+<div style="float: right">
+    <a href="<?php echo $this->url('proveedores') ?>">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </a>
+</div>
+<div style="float: right">
+        <button class="btn btn-default hidden-xs" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span> Añadir Proveedores
+        </button>
+        <button class="btn btn-default visible-xs-inline" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+</div>
+<div style="float: right">
+    <a href="<?php echo $this->url('rptproveedoresxls') ?>">
+       <button class="btn btn-default hidden-xs">
+           <span class="glyphicon glyphicon-save"></span> Reporte Excel
+       </button>
+       <button class="btn btn-default visible-xs-inline">
+           <span class="glyphicon glyphicon-save"></span>
+       </button>
+    </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-briefcase"></span> Proveedores</h1>
+<div class="panel-info">
+    <div class="panel-heading">
+        LISTA DE PROVEEDORES
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+                <th class="col-md-1 text-center">OPCIONES</th>
+                <th class="col-md-1 text-center">#</th>
+                <th class="text-center">RUC</th>
+                <th class="text-center">RAZON SOCIAL</th>
+                <th class="text-center">CONTACTO</th>
+                <th class="text-center">DIRECCION</th>
+                <th class="text-center">TELEFONO</th>
+                <th class="text-center">CELULAR</th>
+                <th class="text-center">EMAIL</th>
+            </thead>
+            <tbody>
+            <?php foreach ($this->proveedoresitems as $proveedores) : ?>
+            <tr>
+                <td class="text-center">
+                    <a href="<?php echo $this->url('editproveedor'); ?>id/<?php echo $proveedores['id']; ?>" title="Editar">
+                        <button class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-edit" ></span>
+                        </button>
+                    </a>
+                    <a href="<?php echo $this->url('deleteproveedor'); ?>id/<?php echo $proveedores['id']; ?>" title="Eliminar">
+                        <button class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </a>
+                    <a href="<?php echo $this->url('viewproveedor'); ?>id/<?php echo $proveedores['id']; ?>">
+                        <button class="btn btn-default btn-xs" title="Ver">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                    </a>
+                </td>
+                <td class="text-center"><?php echo $i; ?></td>
+                <td class="text-center"><?php echo $proveedores['ruc']; ?></td>
+                <td class="text-center"><?php echo $proveedores['razon_social']; ?></td>
+                <td class="text-center"><?php echo $proveedores['nombre']; ?></td>
+                <td class="text-center"><?php echo $proveedores['direccion']; ?></td>
+                <td class="text-center"><?php echo $proveedores['telefono']; ?></td>
+                <td class="text-center"><?php echo $proveedores['celular']; ?></td>
+                <td class="text-center"><a href="mailto:<?php echo $proveedores['email']; ?>"><?php echo $proveedores['email']; ?></a></td>
+            </tr>
+            <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+    <!-- Modal -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div id="loading" class="modal-content" style="display: none;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Añadir Proveedor</h4>
+                </div>
+                <div  class="panel-body table-responsive">
+                    <img src="<?php echo $this->basePath(); ?>/img/loading.gif" class="img-centre img-responsive" />
+                </div>
+            </div>
+            <div id="result">
+                <?php
+                $form = $this->proveedorForm;
+                $form->setAttribute('action', $this->url('addproveedor'));
+                $form->prepare();
+                echo $this->form()->openTag($form);
+                ?>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Añadir Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-default">
+                            <div class="panel-body table-responsive">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>RUC</label>
+                                            <?php echo $this->formElement($form->get('ruc')); ?>
+                                            <?php if($this->formElementErrors($form->get('ruc')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('ruc'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Razon Social</label>
+                                            <?php echo $this->formElement($form->get('razon_social')); ?>
+                                            <?php if($this->formElementErrors($form->get('razon_social')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('razon_social'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Nombre</label>
+                                            <?php echo $this->formElement($form->get('nombre')); ?>
+                                            <?php if($this->formElementErrors($form->get('nombre')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('nombre'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Direccion</label>
+                                            <?php echo $this->formElement($form->get('direccion')); ?>
+                                            <?php if($this->formElementErrors($form->get('direccion')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('direccion'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Telefono</label>
+                                            <?php echo $this->formElement($form->get('telefono')); ?>
+                                            <?php if($this->formElementErrors($form->get('telefono')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('telefono'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Celular</label>
+                                            <?php echo $this->formElement($form->get('celular')); ?>
+                                            <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('celular'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <?php echo $this->formElement($form->get('email')); ?>
+                                            <?php if($this->formElementErrors($form->get('email')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('email'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ciudad</label>
+                                            <?php echo $this->formElement($form->get('ciudad')); ?>
+                                            <?php if($this->formElementErrors($form->get('ciudad')) != null) : ?>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <?php echo $this->formElementErrors($form->get('ciudad'));?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sitio web</label>
+                                    <?php echo $this->formElement($form->get('url')); ?>
+                                    <?php if($this->formElementErrors($form->get('url')) != null) : ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <?php echo $this->formElementErrors($form->get('url'));?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>Observacion</label>
+                                    <?php echo $this->formElement($form->get('observacion')); ?>
+                                    <?php if($this->formElementErrors($form->get('observacion')) != null) : ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <?php echo $this->formElementErrors($form->get('observacion'));?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <?php echo $this->formElement($form->get('reset')); ?>
+                        <?php echo $this->formElement($form->get('submit')); ?>
+                    </div>
+                <?php
+                echo $this->form()->closeTag($form);
+                ?>
+            </div>
+            </div>
+        </div>
+    </div>
+<script>
+    $(document).ready(function(){
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+        $("#proveedorForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var parametros = {
+                ruc : $(this).find( "input[name='ruc']" ).val(),
+                razon_social : $(this).find( "input[name='razon_social']" ).val(),
+                nombre : $(this).find( "input[name='nombre']" ).val(),
+                direccion : $(this).find( "input[name='direccion']" ).val(),
+                telefono : $(this).find( "input[name='telefono']" ).val(),
+                celular : $(this).find( "input[name='celular']" ).val(),
+                email : $(this).find( "input[name='email']" ).val(),
+                ciudad : $(this).find( "input[name='ciudad']" ).val(),
+                url : $(this).find( "input[name='url']" ).val(),
+                observacion : $(this).find( "textarea[name='observacion']" ).val(),
+            };
+            var url = '<?php echo $this->url('addproveedor')?>';
+            //alert('the action is: ' + url);
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                data: parametros,
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        });
+    });
+</script>

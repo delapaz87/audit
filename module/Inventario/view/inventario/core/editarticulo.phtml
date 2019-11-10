@@ -1,0 +1,178 @@
+<?php
+use Zend\Session\Container;
+
+$session = new Container('User');
+$role = $session->offsetGet('roleId');
+$role_name = $session->offsetGet('roleName');
+?>
+<?php echo $this->headTitle('Editar Articulos') ?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/moment.js')
+    ->prependFile($this->basePath() . '/js/bootstrap-datetimepicker.js');
+?>
+    <script>
+        $(function(){
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                viewMode: 'years',
+                maxDate : 'now'
+            });
+        });
+    </script>
+<div style="float: right">
+    <a href="javascript:history.back()">
+        <button class="btn btn-default hidden-xs">
+            <span class="glyphicon glyphicon-menu-left"></span> Regresar
+        </button>
+        <button class="btn btn-default visible-xs-inline">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </button>
+    </a>
+</div>
+<h1 class="page-header"><span class="glyphicon glyphicon-align-justify"></span> Editar Articulos</h1>
+<?php foreach ($this->dbinventario as $articulo) : ?>
+<?php
+$form = $this->articuloForm;
+$form->setAttribute('action', $this->url('editarticulo'));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="panel-info">
+    <div class="panel-heading">
+        EDITAR ARTICULOS
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Codigo de Barra</label>
+                    <?php echo $this->formElement($form->get('codigo')->setValue($articulo['codigo'])); ?>
+                    <?php if($this->formElementErrors($form->get('codigo')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('codigo'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php if($role == 1): ?>
+            <div class="form-group">
+            <label>Cantidad</label>
+                <?php echo $this->formElement($form->get('stock')->setValue($articulo['stock'])); ?>
+                 <?php if($this->formElementErrors($form->get('stock')) != null) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $this->formElementErrors($form->get('stock'));?>
+                </div>
+                 <?php endif; ?>
+                </div>
+                <?php else : ?>
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <?php echo $this->formElement($form->get('stock')->setValue($articulo['stock'])->setAttributes(array('disabled' => 'disabled'))); ?>
+                    <?php if($this->formElementErrors($form->get('stock')) != null) : ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $this->formElementErrors($form->get('stock'));?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <?php
+                    $value_categoria= array('' => 'SELECCIONAR');
+                    foreach ($this->dbcategoria as $categoria) {
+                        $value_categoria[$categoria['id']] = $categoria['categoria'];
+                    }
+                    ?>
+                    <?php echo $this->formElement($form->get('id_categoria')->setValueOptions($value_categoria)->setValue($articulo['id_categoria'])); ?>
+                    <?php if($this->formElementErrors($form->get('id_categoria')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('id_categoria'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <?php echo $this->formElement($form->get('productos')->setValue($articulo['productos'])); ?>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <div class="input-group">
+                    <div class="input-group-addon">
+                        <?php echo $this->formElement($form->get('tipo_moneda')->setValue($articulo['tipo_moneda'])); ?>
+                    </div>
+                    <?php echo $this->formElement($form->get('precio')->setValue($articulo['precio'])); ?>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group select2-bootstrap-prepend">
+                    <label>Proveedor</label>
+                    <?php
+                    $value_proveedor = array('' => 'SELECCIONAR');
+                    foreach ($this->dbproveedor as $proveedor) {
+                        $value_proveedor[$proveedor['id']] = $proveedor['razon_social'];
+                    }
+                    ?>
+                    <?php echo $this->formElement($form->get('id_proveedor')->setValueOptions($value_proveedor)->setValue($articulo['id_proveedor']));
+
+                    ?>
+                    <?php if($this->formElementErrors($form->get('id_proveedor')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('id_proveedor'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-1 small"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Marca</label>
+                    <?php echo $this->formElement($form->get('marca')->setValue($articulo['marca'])); ?>
+                    <?php if($this->formElementErrors($form->get('marca')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('marca'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Entrada</label>
+                    <div id='datetimepicker1' class='input-group date'>
+                    <?php echo $this->formElement($form->get('fecha_entrada')->setValue($articulo['fecha_entrada'])); ?>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('fecha_entrada')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('fecha_entrada'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+            <?php echo $this->formElement($form->get('id_inventario')->setValue($articulo['id_inventario']));  ?>
+                <button class="btn btn-default " type="submit">
+                    <span class="glyphicon glyphicon-save"></span> Guardar
+                </button>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+<?php endforeach; ?>

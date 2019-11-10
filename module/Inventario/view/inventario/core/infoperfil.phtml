@@ -1,0 +1,80 @@
+<?php
+use Zend\Session\Container;
+
+$session = new Container('User');
+$role = $session->offsetGet('roleId');
+$role_name = $session->offsetGet('roleName');
+?>
+<script type="text/javascript">
+
+    function changerpassword (e) {
+        $("#result" ).hide();
+        var url = '<?php echo $this->url('changerpassword')?>';
+        $( "#loading").show();
+        var request = $.ajax({
+            url:  url,
+            type: "GET",
+            dataType: "html"
+        });
+
+        request.done(function( msg ) {
+            $( "#result" ).html( msg );
+            $( "#result" ).show();
+            $( "#loading" ).hide();
+        });
+    };
+
+    function edituser (e) {
+        $("#result" ).hide();
+        var url = '<?php echo $this->url('editperfil')?>';
+        $( "#loading").show();
+        var request = $.ajax({
+            url:  url,
+            type: "GET",
+            dataType: "html"
+        });
+
+        request.done(function( msg ) {
+            $( "#result" ).html( msg );
+            $( "#result" ).show();
+            $( "#loading" ).hide();
+        });
+    };
+</script>
+<?php foreach ($this->result as $users): ?>
+<div class="panel-info">
+    <div class="">
+        <a href="#" onclick="javascript:edituser()"><span class="glyphicon glyphicon-edit pull-right"></span></a>
+    </div>
+    <h1><?php echo $session->offsetGet('name');?></h1>
+    <div class="panel-body ">
+        <div class="form-group">
+            <label>DNI:</label>
+            <?php echo $users['dni'] ; ?>
+        </div>
+        <div class="form-group">
+            <label>Email: </label>
+            <?php echo $session->offsetGet('email'); ?>
+        </div>
+        <div class="form-group">
+            <label>Celular: </label>
+            <?php echo $users['celular'] ; ?>
+        </div>
+        <div class="form-group">
+            <label>Rol: </label>
+            <?php echo $session->offsetGet('roleName'); ?>
+        </div>
+        <div class="form-group">
+            <label>Fecha de creacion: </label>
+            <?php echo $this->status()->printdate($users['created_on']); ?>
+        </div>
+        <div class="form-group">
+            <label>Fecha de modificación: </label>
+            <?php echo $this->status()->printdate($users['modified_on']); ?>
+        </div>
+    </div>
+</div>
+<button name="changerpassword" class="btn btn-default" type="button" onclick="javascript:changerpassword()">
+    <span class="glyphicon glyphicon-save"></span> Cambiar Contraseña
+</button>
+<?php endforeach; ?>

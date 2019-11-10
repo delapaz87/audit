@@ -1,0 +1,114 @@
+<?php
+use Zend\Session\Container;
+
+$session = new Container('User');
+$role = $session->offsetGet('roleId');
+$role_name = $session->offsetGet('roleName');
+?>
+
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('AudIT')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.png'))
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/dashboard.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery.min.js')
+            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                    <img src="<?php echo $this->basePath(); ?>/img/find_user.png" alt="Nombre de Perfil" class="img-circle" style="margin-left: 20px">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="<?php echo $this->url('dashboard') ?>"><span class="glyphicon glyphicon-dashboard"> </span> &nbsp;Dashboard</a></li>
+                        <li><a href="<?php echo $this->url('invprincipal') ?>"><span class="glyphicon glyphicon-align-justify"> </span> &nbsp;Inventario Principal</a></li>
+                        <li><a href="<?php echo $this->url('stockmini') ?>"><span class="glyphicon glyphicon-alert"> </span> &nbsp;Stock Minimo</a></li>
+                        <li><a href="<?php echo $this->url('addmercancia') ?>"><span class="glyphicon glyphicon-shopping-cart"> </span> &nbsp;Ingreso de Mercaderias</a></li>
+                        <li><a href="<?php echo $this->url('historysalida') ?>"><span class="glyphicon glyphicon-log-out"> </span> &nbsp;Historial de Salidas</a></li>
+                        <li><a href="<?php echo $this->url('categorias') ?>"><span class="glyphicon glyphicon-list"> </span> &nbsp;Categorias</a></li>
+                        <li><a href="<?php echo $this->url('proveedores') ?>"><span class="glyphicon glyphicon-briefcase"> </span> &nbsp;Proveedores</a></li>
+                        <?php if ($role == 1) : ?>
+                        <li><a href="<?php echo $this->url('users') ?>"><span class="glyphicon glyphicon-user"> </span> &nbsp;Usuarios</a></li>
+                        <?php endif ?>
+                    </ul>
+            </div>
+
+            <div class="col-sm-7 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
+                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath(); ?>/img/logo_core.png" alt="AudIT" /> </a>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a>Bienvenido: <?php echo $session->offsetGet('name');?></a></li>
+                                <li><a href="<?php echo $this->url('dashboard') ?>"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+                                <li><a href=""><span class="glyphicon glyphicon-cog"></span> Configuración</a></li>
+                                <li>
+                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                         <span class="glyphicon glyphicon-user"></span> Perfil <span class="caret"></span>
+                                     </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="<?php echo $this->url('perfil') ?>">Mi Perfil</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="<?php echo $this->url('logout') ?>">Cerrar seccion</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <?php
+                $i = 1;
+                $flashMessage = $this->flashMessenger()->getMessages();
+                if (count($flashMessage)) :
+                    ?>
+                    <?php
+                    foreach ($flashMessage as $msg) :
+                        foreach ($msg as $type => $message) :
+                            ?>
+                            <div class="alert alert-info"><?php echo $message; ?></div>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php if(isset($this->messages)) : ?>
+                    <?php foreach ($this->messages as $type => $msg) : ?>
+                        <div class="alert alert-info"><?php echo $msg; ?></div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php echo $this->content; ?>
+                    <hr>
+                    <footer>
+                        <p>&copy; 2005 - <?php echo date('Y') ?> Todos los Derechos Reservados.</p>
+                    </footer>
+              </div>
+        </div>
+    </div>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

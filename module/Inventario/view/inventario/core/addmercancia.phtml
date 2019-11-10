@@ -1,0 +1,209 @@
+<?php echo $this->headTitle('Añadir Mercancia') ?>
+<?php
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+echo  $this->headLink()->prependStylesheet($this->basePath() . '/js/datatable/datatables.min.css');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/datatable/datatables.min.js');
+echo $this->headScript()
+    ->prependFile($this->basePath() . '/js/moment.js')
+    ->prependFile($this->basePath() . '/js/bootstrap-datetimepicker.js');
+?>
+
+<script>
+    $(document).ready(function(){
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD',
+            viewMode: 'years',
+            maxDate : 'now'
+        });
+        $('#myTable').DataTable( {
+            autoFill: true
+        } );
+    });
+</script>
+<h1 class="page-header"><span class="glyphicon glyphicon-align-justify"></span> Añadir Mercancia</h1>
+<?php
+$form = $this->articuloForm;
+$form->setAttribute('action', $this->url('addmercancia'));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="panel-info">
+    <div class="panel-heading">
+        AÑADIR ARTICULOS
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Codigo de Barra</label>
+                    <?php echo $this->formElement($form->get('codigo')); ?>
+                    <?php if($this->formElementErrors($form->get('codigo')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('codigo'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad</label>
+                    <?php echo $this->formElement($form->get('stock')); ?>
+                    <?php if($this->formElementErrors($form->get('stock')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('stock'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <?php
+                    $value_categoria= array('' => 'SELECCIONAR');
+                    foreach ($this->dbcategoria as $categoria) {
+                        $value_categoria[(int)$categoria['id']] = $categoria['categoria'];
+                    }
+                    ?>
+                    <?php echo $this->formElement($form->get('id_categoria')->setValueOptions($value_categoria)); ?>
+                    <?php if($this->formElementErrors($form->get('id_categoria')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('id_categoria'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <?php echo $this->formElement($form->get('productos')); ?>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <div class="input-group">
+                    <div class="input-group-addon">
+                        <?php echo $this->formElement($form->get('tipo_moneda')); ?>
+                    </div>
+                    <?php echo $this->formElement($form->get('precio')); ?>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('productos')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('productos'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group select2-bootstrap-prepend">
+                    <label>Proveedor</label>
+                    <?php
+                    $value_proveedor = array('' => 'SELECCIONAR');
+                    foreach ($this->dbproveedor as $proveedor) {
+                        $value_proveedor[$proveedor['id']] = $proveedor['razon_social'];
+                    }
+                    ?>
+                    <?php echo $this->formElement($form->get('id_proveedor')->setValueOptions($value_proveedor)); ?>
+                    <?php if($this->formElementErrors($form->get('id_proveedor')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $this->formElementErrors($form->get('id_proveedor'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="col-md-1 small"></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Marca</label>
+                    <?php echo $this->formElement($form->get('marca')); ?>
+                    <?php if($this->formElementErrors($form->get('marca')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('marca'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Entrada</label>
+                    <div id='datetimepicker1' class='input-group date'>
+                    <?php echo $this->formElement($form->get('fecha_entrada')); ?>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                    <?php if($this->formElementErrors($form->get('fecha_entrada')) != null) : ?>
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            <?php echo $this->formElementErrors($form->get('fecha_entrada'));?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+                <button class="btn btn-default " type="submit">
+                    <span class="glyphicon glyphicon-save"></span> Guardar
+                </button>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+<?php
+$i = 1;
+?>
+<div class="panel-info">
+    <div class="panel-heading">
+        INVENTARIO PRINCIPAL
+    </div>
+    <div class="panel-body table-responsive">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+            <th class="col-md-1 text-center">OPCIONES</th>
+            <th class="col-md-1 text-center">#</th>
+            <th class="text-center">CODIGO DE BARRA</th>
+            <th class="text-center">PRODUCTOS</th>
+            <th class="text-center">MARCA</th>
+            <th class="text-center">PRECIO</th>
+            <th class="text-center">STOCK</th>
+            <th class="text-center">FECHA DE ENTRADA</th>
+            <th class="text-center">CATEGORIA</th>
+            <th class="text-center">PROVEEDOR</th>
+            </thead>
+            <tbody>
+            <?php foreach ($this->inventario as $inventario) :?>
+                <tr>
+                    <td class="text-center">
+                        <a href="<?php echo $this->url('editarticulo'); ?>id/<?php echo $inventario['id_inventario']; ?>" title="Editar">
+                            <button class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-edit" ></span>
+                            </button>
+                        </a>
+                    </td>
+                    <td class="col-md-1 text-center"><?php echo $i; ?></td>
+                    <td class="text-center"><?php echo $inventario['codigo']; ?></td>
+                    <td class="text-center"><?php echo $inventario['productos']; ?></td>
+                    <td class="text-center"><?php echo $inventario['marca']; ?></td>
+                    <td class="text-center"><?php echo $inventario['precio']; ?></td>
+                    <td class="text-center"><?php echo $inventario['stock']; ?></td>
+                    <td class="text-center"><?php echo $inventario['fecha_entrada']; ?></td>
+                    <td class="text-center"><?php echo $inventario['categoria']; ?></td>
+                    <td class="text-center"><?php echo $inventario['razon_social']; ?></td>
+                </tr>
+                <?php $i++; ?>
+            <?php endforeach; ?>
+            </tbody>
+
+        </table>
+    </div>
+</div>

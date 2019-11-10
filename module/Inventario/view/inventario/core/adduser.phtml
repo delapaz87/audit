@@ -1,0 +1,153 @@
+<?php
+$form = $this->usersForm;
+$form->setAttribute('action', $this->url('addusers'));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Añadir Usuario</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel-default">
+            <div class="panel-body table-responsive">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>DNI</label>
+                            <?php echo $this->formElement($form->get('dni')); ?>
+                            <?php if($this->formElementErrors($form->get('dni')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('dni'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre/Apellidos</label>
+                            <?php echo $this->formElement($form->get('nombre')); ?>
+                            <?php if($this->formElementErrors($form->get('nombre')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('nombre'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <?php echo $this->formElement($form->get('email')); ?>
+                            <?php if($this->formElementErrors($form->get('email')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('email'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Activo</label>
+                            <?php echo $this->formElement($form->get('activo')); ?>
+                            <?php if($this->formElementErrors($form->get('activo')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('activo'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <?php echo $this->formElement($form->get('password')); ?>
+                            <?php if($this->formElementErrors($form->get('password')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('password'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Repetir contraseña</label>
+                            <?php echo $this->formElement($form->get('password_repeat')); ?>
+                            <?php if($this->formElementErrors($form->get('password_repeat')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('password_repeat'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Celular</label>
+                            <?php echo $this->formElement($form->get('celular')); ?>
+                            <?php if($this->formElementErrors($form->get('celular')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('celular'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group">
+                            <label>Rol</label>
+                            <?php echo $this->formElement($form->get('rol')); ?>
+                            <?php if($this->formElementErrors($form->get('rol')) != null) : ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    <?php echo $this->formElementErrors($form->get('rol'));?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <?php echo $this->formElement($form->get('reset')); ?>
+        <?php echo $this->formElement($form->get('submit')); ?>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag($form);
+?>
+<script>
+    $(document).ready(function(){
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+        $("#usersForm").submit(function (e) {
+            e.preventDefault();
+            $( "#result"  ).hide();
+            var target = $(this).attr("action");
+            var url = 'http://localhost:8080' + $(this).attr("action");
+            //alert('the action is: ' + url);
+            $( "#loading").show();
+            var request = $.ajax({
+                url:  url,
+                type: "POST",
+                //  data: { id : 1},
+                dataType: "html"
+            });
+
+            request.done(function( msg ) {
+                $( "#result" ).html( msg );
+                $( "#result" ).show();
+                $( "#loading" ).hide();
+            });
+        });
+    });
+</script>
